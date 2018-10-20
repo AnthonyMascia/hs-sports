@@ -24,7 +24,6 @@
     </div>
   </div>
 </template>
-
 <script>
 const axios = require('axios');
 
@@ -52,7 +51,33 @@ export default {
   created() {
     axios
       .get(`https://newsapi.org/v2/sources?apiKey=${this.apiKey}`)
-      .then((res) => { this.sources = res.data.sources; console.log(res); });
+      .then((res) => { this.sources = res.data.sources; });
+      // lohud.com/story
+// patch.com/new-york
+// democratandchronicle.com/story
+// poughkeepsiejournal.com/story
+// www.ydr.com
+// roadtosyracuse.com
+// section2athletics.org
+// pressconnects.com/story
+// mpnnow.com
+// the-leader.com
+// pickinsplinters.com
+// pressrepublican.com
+// news12varsity.com
+// newyorksportswriters.org
+// buffalonews.com/section/sports/high-schools
+// timesunion.com/sports
+// poststar.com/sports/high-school/football
+// highschoolsports.syracuse.com
+// uticaod.com/sports
+// thedailystar.com/sports
+// mpnnow.com/sports
+// niagara-gazette.com/sports/high_school_sports
+// watertowndailytimes.com/sports
+// newsday.com/sports/high-school/football
+// recordonline.com/varsity
+// news.google.com
   },
 };
 </script>
