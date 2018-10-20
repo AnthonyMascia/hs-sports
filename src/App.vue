@@ -1,28 +1,52 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container" id="app">
+    <TeamSearch :apiKey="apiKey" :cx="cx" v-on:doSearch="doSearch"></TeamSearch>
+    <NewsList :apiKey="apiKey" :cx="cx" v-bind:query="query"></NewsList>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import NewsList from './components/NewsList.vue';
+import TeamSearch from './components/TeamSearch.vue';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    NewsList,
+    TeamSearch,
+  },
+  data() {
+    return {
+      // source: '',
+      query: '',
+      apiKey: 'AIzaSyAaoPjbYH0gT0C_Y_2ECFwIh3w5DSmaE-s',
+      cx: '005814160350276824345:ell0sjrulya',
+    };
+  },
+  methods: {
+    doSearch(query) {
+      this.query = query;
+    },
+  },
+  created() {
+    // axios
+    //   .get(`https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.cx}&q=lectures`)
+    //   .then((res) => { console.log(res); });
   },
 };
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding-top: 20px;
+}
+footer {
+  margin-top: 20px;
+  background-color: #eee;
+  padding: 10px;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  border-radius: 3px;
+  font-weight: bold;
 }
 </style>
