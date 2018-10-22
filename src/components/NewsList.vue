@@ -1,54 +1,53 @@
 <template>
   <div class="news-list">
     <div class="container">
-    <!-- <ul class="media-list">
-        <li class="media"
-            v-for="news in news" :key="news.id">
-          <div class="media-left">
-            <a v-bind:href="news.url" target="_blank">
-              <img class="media-object"
-                v-bind:alt="news.description"
-                v-bind:src="news.urlToImage" />
-            </a>
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">
-              <a v-bind:href="news.url" target="_blank">{{news.title}}</a>
-            </h4>
-            <h5><i>{{news.author}}</i></h5>
-            <p>
-              {{news.description}}
-            </p>
-          </div>
-        </li>
-      </ul> -->
-
-
-
-      <ul class="media-list">
-        <li class="media"
-            v-for="article in articles"
-            v-if="articles != null"
-            :key="article.cacheId">
-          <div class="media-left">
-            <a v-bind:href="article.link" target="_blank">
-              <img v-if="article.pagemap != null && article.cse_thumbnail != null"
-                class="media-object"
-                v-bind:alt="article.snippet"
-                v-bind:src="article.pagemap.cse_thumbnail[0].src" />
-            </a>
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">
-              <a v-bind:href="article.link" target="_blank">{{article.title}}</a>
-            </h4>
-            <h5><i>{{article.displayLink}}</i></h5>
-            <p>
-              {{article.snippet}}
-            </p>
-          </div>
-        </li>
-      </ul>
+      <div class="row">
+        <div class="col-md-12">
+            <div class="row mb-2" v-for="article in articles" v-if="articles != null" :key="article.cacheId">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row news-row">
+                                <div class="col-md-3">
+                                    <img class="img-fluid" v-bind:src="article.pagemap.cse_thumbnail[0].src">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                        <div class="news-content">
+                                            <a v-bind:href="article.link" target="_blank"><h2>{{article.title}}</h2></a>
+                                            <p>{{article.snippet}}</p>
+                                        </div>
+                                        <!-- <div class="news-footer">
+                                        <div class="news-author">
+                                            <ul class="list-inline list-unstyled">
+                                                <li class="list-inline-item text-secondary">
+                                                    <i class="fa fa-user"></i>
+                                                    Prashant Singh
+                                                </li>
+                                                <li class="list-inline-item text-secondary">
+                                                    <i class="fa fa-user"></i>
+                                                    Advice
+                                                </li>
+                                                <li class="list-inline-item text-secondary">
+                                                    <i class="fa fa-eye"></i>
+                                                    110 Views
+                                                </li>
+                                                <li class="list-inline-item text-secondary">
+                                                    <i class="fa fa-calendar"></i>
+                                                    26 June 2018
+                                                </li>
+                                            </ul>
+                                        </div>   
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -62,23 +61,23 @@ export default {
   data() {
     return {
       articles: [],
-      news: [],
     };
   },
   methods: {
     updateQuery(query) {
-      query = query.trim();
+      var trimmedQuery = query.trim();
 
-      if (query.indexOf(' ') >= 0){
+      if (trimmedQuery.indexOf(' ') >= 0){
         let matches = query.match(/\b(\w)/g);
         let queryAcrynm = matches.join('');
-        console.log(queryAcrynm);
+        
         axios
           .get(
             `https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.cx}` +
-            `&q=%28intitle%3A"${query}"+OR+intitle%3A"${queryAcrynm}"%29+AND+intext%3Afootball` +
+            `&q=%28intitle%3A"${trimmedQuery}"+OR+intitle%3A"${queryAcrynm}"+OR+intext%3A${trimmedQuery}+OR+intext%3A"${queryAcrynm}"%29+AND+intext%3Afootball` +
             `&sort=date`)
           .then((res) => {
+            console.log(this.articles);
             this.articles = res.data.items;
           });
       }
@@ -86,9 +85,10 @@ export default {
         axios
           .get(
             `https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.cx}` +
-            `&q=intitle%3A"${query}"%20+AND+intext%3Afootball` +
+            `&q=%28intitle%3A"${query}"+OR+intext%3A"${query}"%29+AND+intext%3Afootball` +
             `&sort=date`)
           .then((res) => {
+            console.log(res.data.items);
             this.articles = res.data.items;
           });
       }
@@ -103,12 +103,14 @@ export default {
 </script>
 
 <style scoped>
-  .media-object {
-    width: 128px;
-    padding: 10px;
+  .news-row {
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
-  .media {
-    border-top: 1px solid lightgrey;
-    padding-top: 20px;
+
+  .card-body {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 </style>

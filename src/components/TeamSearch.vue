@@ -1,6 +1,31 @@
 <template>
   <div>
     <div class="container">
+      <div id="bg-image" class="bg-image" style="height: 1058px;">
+      <div class="bg-blur-container bg-image" style="height: 1058px;">
+        <div class="bg-blur bg-box container" style="height: 400px; top: 0px; background-position-y: 50%;"></div>
+        <div class="bg-gray bg-box container" style="height: 400px; top: 0px;">
+          <h1 id="site-header" class="header">A Search of Ice and Fire</h1>
+          <p id="site-description">Search the full text of your favorite books.</p>
+          <div class="search-container clearfix">
+            <i class="color-transition icon-search" id="search-icon" style="color: rgb(119, 119, 119);"></i>
+            <input type="text" id="search" class="pull-left" autocapitalize="off" autocomplete="off">
+            <button id="search-button" class="js-search-button pull-left color-transition">SEARCH</button>
+          </div>
+          <div class="social-container">
+            <a href="http://www.facebook.com/sharer.php?u=" class="right social-icon" data-social="facebook">
+              <img src="/4a64baac3af583dce5b10aab9cee3b73f499cd0a/img/facebook.png">
+            </a>
+            <a href="http://twitter.com/intent/tweet?url=" class="left right social-icon" data-social="twitter">
+              <img src="/4a64baac3af583dce5b10aab9cee3b73f499cd0a/img/twitter.png">
+            </a>
+            <a href="https://plusone.google.com/_/+1/confirm?hl=en&amp;url=" class="left social-icon" data-social="google">
+              <img src="/4a64baac3af583dce5b10aab9cee3b73f499cd0a/img/google.png">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
         <input id='search_link' class="w-100" @click.prevent="openFullScreenSearch">
 
         <div id="search" @click="closeFullScreenSearch" @keyup="closeFullScreenSearch">
@@ -43,8 +68,11 @@ export default {
       }
     },
     doSearch() {
+      const search = document.getElementById('search');
       const searchInput = document.getElementById('search_input');
       this.query = searchInput.value;
+
+      search.classList.remove('open');
 
       this.$emit('doSearch', this.query);
     },
