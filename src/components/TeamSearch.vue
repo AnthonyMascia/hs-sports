@@ -5,8 +5,7 @@
         <div class="col-xl-6 search-bg">
             <div id="search_card" class="card">
                 <div class="card-body text-center">
-                    <input id="search_small" type="text" placeholder="Who Ya Got?"
-                        @click.prevent="openFullScreenSearch;" @click="scrollTo($event, 0, 800);">
+                    <input id="search_small" type="text" placeholder="Who Ya Got?" @click="openFullScreenSearch();">
                 </div>
             </div>
         </div>
@@ -61,6 +60,8 @@
 <script>
 import Parallax from 'vue-parallaxy';
 
+const VueScrollTo = require('vue-scrollto');
+
 export default {
   props: ['apiKey'],
   data() {
@@ -78,7 +79,6 @@ export default {
       const searchCtnr = document.getElementById('search_big_ctnr');
       const searchInput = document.getElementById('search_big');
 
-      this.scrollTo(window, 0, 600);
       searchCtnr.classList.add('open');
       searchInput.focus();
     },

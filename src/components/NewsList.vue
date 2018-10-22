@@ -37,6 +37,7 @@
 
 <script>
 const axios = require('axios');
+const VueScrollTo = require('vue-scrollto');
 
 export default {
   name: 'news-list',
@@ -59,7 +60,6 @@ export default {
             `&q=%28intitle%3A"${trimmedQuery}"+OR+intitle%3A"${queryAcrynm}"+OR+intext%3A${trimmedQuery}+OR+intext%3A"${queryAcrynm}"%29+AND+intext%3Afootball` +
             '&sort=date')
           .then((res) => {
-            console.log(this.articles);
             this.articles = res.data.items;
           });
       } else {
@@ -68,8 +68,11 @@ export default {
             `&q=%28intitle%3A"${query}"+OR+intext%3A"${query}"%29+AND+intext%3Afootball` +
             '&sort=date')
           .then((res) => {
-            console.log(res.data.items);
             this.articles = res.data.items;
+
+            if (res.data.items !== 'undefined'){
+              VueScrollTo.scrollTo('.news-list', 1200, {});
+            }
           });
       }
     },
