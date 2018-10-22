@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="app">
+  <div id="app">
     <TeamSearch :apiKey="apiKey" :cx="cx" v-on:doSearch="doSearch"></TeamSearch>
     <NewsList :apiKey="apiKey" :cx="cx" v-bind:query="query"></NewsList>
 
@@ -39,7 +39,7 @@ export default {
 
 <style>
 #app {
-  padding-top: 20px;
+  height: 5000px;
 }
 footer {
   margin-top: 20px;
