@@ -47,34 +47,65 @@
     </div>
         <input id='search_link' class="w-100" @click.prevent="openFullScreenSearch">-->
 
-    <div id="search_big_ctnr" @click="closeFullScreenSearch" @keyup="closeFullScreenSearch">
+    <div id="search_big_ctnr" @click="closeFullScreenSearch" @keyup="closeFullScreenSearch" aria-autocomplete="off">
         <button type="button" class="close">×</button>
         <form id="search_form" @submit.prevent="doSearch">
-            <input id="search_big" type="search" value="" />
+            <v-autocomplete :items="items" v-model='item' :get-label='getLabel' :min-len='0' @update-items='update' :component-item='tpl' @item-selected="itemSelected" @item-clicked="itemClicked" :input-attrs="{name: 'input-test', id: 'search_big', autocomplete: 'off'}">
+            </v-autocomplete>
+            <p>Selected Item:</p>
+            <pre>{{ item }}</pre>
+            <!-- <input id="search_big" type="search" value="" /> -->
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
+    </div>
+
+    <div>
+        
     </div>
   </div>
 </template>
 
 <script>
 import Parallax from 'vue-parallaxy';
-
-const VueScrollTo = require('vue-scrollto');
+import VueScrollTo from 'vue-scrollto';
+import ItemTemplate from './ItemTemplate.vue'
+import Autocomplete from './Autocomplete.vue'
+import tpl from './TplItem.vue'
+import Animals from './animals.js'
 
 export default {
   props: ['apiKey'],
   data() {
     return {
-      sources: [],
-      source: '',
       query: [],
+      itemsApi: [],
+      item: {id: 9, name: 'Lion', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'},
+      items: [],
+      tpl: tpl
     };
   },
   components: {
     Parallax,
+    'v-autocomplete': Autocomplete,
   },
   methods: {
+    itemSelected (item) {
+      console.log('Selected item!', item)
+    },
+    itemClicked (item) {
+      console.log('You clicked an item!', item)
+    },
+    getLabel (item) {
+      if (item) {
+        return item.name
+      }
+      return ''
+    },
+    update (text) {
+      this.items = Animals.filter((item) => {
+        return (new RegExp(text.toLowerCase())).test(item.name.toLowerCase())
+      })
+    },
     openFullScreenSearch() {
       const searchCtnr = document.getElementById('search_big_ctnr');
       const searchInput = document.getElementById('search_big');
@@ -197,22 +228,10 @@ body {
     opacity: 1;
 }
 
-#search_big_ctnr input[type="search"] {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    color: rgb(255, 255, 255);
-    background: rgba(0, 0, 0, 0);
-    font-size: 60px;
-    font-weight: 300;
-    text-align: center;
-    border: 0px;
-    margin: 0px auto;
-    margin-top: -51px;
-    padding-left: 30px;
-    padding-right: 30px;
-    outline: none;
+#search_form {
+    height: 100%;
 }
+
 #search_big_ctnr .btn {
     position: absolute;
     top: 50%;
@@ -230,5 +249,17 @@ body {
     opacity: 1;
     padding: 10px 17px;
     font-size: 27px;
+}
+
+
+.v-autocomplete .v-autocomplete-input-group .v-autocomplete-input {
+    font-size: 1.5em;
+    padding: 10px 15px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #157977;
+    width: calc(100% - 32px);
+    outline: none;
+    background-color: #eee;
 }
 </style>
