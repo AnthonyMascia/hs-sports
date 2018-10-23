@@ -70,7 +70,7 @@ export default {
           .then((res) => {
             this.articles = res.data.items;
 
-            if (res.data.items !== 'undefined'){
+            if (res.data.items !== 'undefined') {
               VueScrollTo.scrollTo('.news-list', 1200, {});
             }
           });

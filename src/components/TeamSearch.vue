@@ -47,20 +47,24 @@
     </div>
         <input id='search_link' class="w-100" @click.prevent="openFullScreenSearch">-->
 
-    <div id="search_big_ctnr" @click="closeFullScreenSearch" @keyup="closeFullScreenSearch" aria-autocomplete="off">
+    <div id="search_big_ctnr" @click="closeFullScreenSearch" @keyup="closeFullScreenSearch">
         <button type="button" class="close">×</button>
         <form id="search_form" @submit.prevent="doSearch">
-            <v-autocomplete :items="items" v-model='item' :get-label='getLabel' :min-len='0' @update-items='update' :component-item='tpl' @item-selected="itemSelected" @item-clicked="itemClicked" :input-attrs="{name: 'input-test', id: 'search_big', autocomplete: 'off'}">
-            </v-autocomplete>
-            <p>Selected Item:</p>
-            <pre>{{ item }}</pre>
-            <!-- <input id="search_big" type="search" value="" /> -->
-            <button type="submit" class="btn btn-primary">Search</button>
+            <div class="row justify-content-center">
+                <div class="col-xl-6">
+                    <v-autocomplete
+                        :items="items" v-model='item' :get-label='getLabel'
+                        @update-items='update' :component-item='tpl'
+                        @item-selected="itemSelected" @item-clicked="itemClicked"
+                        :input-attrs="{name: 'input-test', id: 'search_big', autocomplete: 'off'}">
+                    </v-autocomplete>
+                </div>
+            </div>
         </form>
     </div>
 
     <div>
-        
+
     </div>
   </div>
 </template>
@@ -68,10 +72,10 @@
 <script>
 import Parallax from 'vue-parallaxy';
 import VueScrollTo from 'vue-scrollto';
-import ItemTemplate from './ItemTemplate.vue'
-import Autocomplete from './Autocomplete.vue'
-import tpl from './TplItem.vue'
-import Animals from './animals.js'
+import ItemTemplate from './ItemTemplate.vue';
+import Autocomplete from './Autocomplete.vue';
+import tpl from './TplItem.vue';
+import Teams from './teams';
 
 export default {
   props: ['apiKey'],
@@ -79,9 +83,9 @@ export default {
     return {
       query: [],
       itemsApi: [],
-      item: {id: 9, name: 'Lion', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'},
+      item: { },
       items: [],
-      tpl: tpl
+      tpl,
     };
   },
   components: {
@@ -89,35 +93,38 @@ export default {
     'v-autocomplete': Autocomplete,
   },
   methods: {
-    itemSelected (item) {
-      console.log('Selected item!', item)
+    itemSelected(item) {
+      console.log('Selected item!', item);
     },
-    itemClicked (item) {
-      console.log('You clicked an item!', item)
+    itemClicked(item) {
+      console.log('You clicked an item!', item);
     },
-    getLabel (item) {
+    getLabel(item) {
       if (item) {
-        return item.name
+        return item.name;
       }
-      return ''
+      return '';
     },
-    update (text) {
-      this.items = Animals.filter((item) => {
-        return (new RegExp(text.toLowerCase())).test(item.name.toLowerCase())
-      })
+    update(text) {
+      this.items = Teams.filter(item =>
+        (new RegExp(text.toLowerCase())).test(item.name.toLowerCase()));
     },
     openFullScreenSearch() {
       const searchCtnr = document.getElementById('search_big_ctnr');
-      const searchInput = document.getElementById('search_big');
+      const searchInputBig = document.getElementById('search_big');
+      const searchInputSmall = document.getElementById('search_small');
 
+      searchInputSmall.style.display = 'none';
       searchCtnr.classList.add('open');
-      searchInput.focus();
+      searchInputBig.focus();
     },
     closeFullScreenSearch(event) {
       const searchCtnr = document.getElementById('search_big_ctnr');
+      const searchInputSmall = document.getElementById('search_small');
 
       if (event.target === this || event.target.className === 'close' || event.keyCode === 27) {
         searchCtnr.classList.remove('open');
+        searchInputSmall.style.display = 'block';
       }
     },
     doSearch() {
@@ -128,6 +135,7 @@ export default {
       this.query = searchInputBig.value;
       searchInputSmall.value = searchInputBig.value;
       searchCtnr.classList.remove('open');
+      searchInputSmall.style.display = 'block';
 
       this.$emit('doSearch', this.query);
     },
@@ -230,7 +238,22 @@ body {
 
 #search_form {
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center
 }
+
+    #search_form div.row {
+        width: 100%;
+        height: 65px;
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+
+        #search_form div.row > div {
+            height: 100%;
+        }
 
 #search_big_ctnr .btn {
     position: absolute;
