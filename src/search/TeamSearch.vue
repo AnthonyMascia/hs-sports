@@ -5,9 +5,11 @@
         <div class="col-xl-6 search-bg">
             <div id="search_card" class="card">
                 <div class="card-body text-center">
-                    <h1 id="site-header" class="header">A Search of Ice and Fire</h1>
-                    <p id="site-description">Search your favorite NY state high school sports teams.</p>
-                    <input id="search_small" type="text"
+                    <h1 id="site_header">Varsity Feed</h1>
+                    <p id="site_description">
+                        Get the latest from your favorite New York high school sports teams.
+                    </p>
+                    <input id="search_small" type="text" class="text-center"
                         placeholder="Who Ya Got?" spellcheck="false"
                         @click="openFullScreenSearch(); scrollToTop();">
                 </div>
@@ -19,37 +21,6 @@
             <img src="../assets/img/football-bg.jpg" class="parallax-img">
         </parallax>
     </div>
-      <!-- <div id="bg-image" class="bg-image" style="height: 1058px;">
-      <div class="bg-blur-container bg-image" style="height: 1058px;">
-        <div class="bg-blur bg-box container"
-            style="height: 400px; top: 0px; background-position-y: 50%;"></div>
-        <div class="bg-gray bg-box container"
-            style="height: 400px; top: 0px;">
-          <h1 id="site-header" class="header">A Search of Ice and Fire</h1>
-          <p id="site-description">Search the full text of your favorite books.</p>
-          <div class="search-container clearfix">
-            <i class="color-transition icon-search" id="search-icon"
-                style="color: rgb(119, 119, 119);"></i>
-            <input type="text" id="search" class="pull-left"
-                autocapitalize="off" autocomplete="off">
-            <button id="search-button"
-                class="js-search-button pull-left color-transition">SEARCH</button>
-          </div>
-          <div class="social-container">
-            <a href="http://www.facebook.com/sharer.php?u=" class="right social-icon" data-social="facebook">
-              <img src="/4a64baac3af583dce5b10aab9cee3b73f499cd0a/img/facebook.png">
-            </a>
-            <a href="http://twitter.com/intent/tweet?url=" class="left right social-icon" data-social="twitter">
-              <img src="/4a64baac3af583dce5b10aab9cee3b73f499cd0a/img/twitter.png">
-            </a>
-            <a href="https://plusone.google.com/_/+1/confirm?hl=en&amp;url=" class="left social-icon" data-social="google">
-              <img src="/4a64baac3af583dce5b10aab9cee3b73f499cd0a/img/google.png">
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-        <input id='search_link' class="w-100" @click.prevent="openFullScreenSearch"> -->
 
     <div id="search_big_ctnr">
         <button type="button" class="close" @click="closeFullScreenSearch">×</button>
@@ -158,6 +129,19 @@ body {
     padding: 40px 0px;
 }
 
+#site_header {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+}
+
+#site_description {
+    font-size: 1.3rem;
+}
+
+#site_header, #site_description {
+    color: white;
+}
+
 #search_ctnr {
     margin: auto;
     position: absolute;
@@ -205,6 +189,10 @@ body {
     padding: 10px 32px;
     font-size: 20px;
 }
+
+    #search_small:focus {
+        border: none !important;
+    }
 
 #search_big_ctnr {
     position: fixed;

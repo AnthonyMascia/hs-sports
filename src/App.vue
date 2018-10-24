@@ -32,6 +32,12 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Lato|Orbitron:900');
+
+#app {
+  font-family: 'Lato', sans-serif;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
