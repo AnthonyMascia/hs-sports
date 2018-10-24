@@ -8,7 +8,7 @@
 
 <script>
 import NewsList from './components/NewsList.vue';
-import TeamSearch from './components/TeamSearch.vue';
+import TeamSearch from './search/TeamSearch.vue';
 
 export default {
   name: 'app',
@@ -32,5 +32,7 @@ export default {
 </script>
 
 <style>
-
+::-webkit-scrollbar {
+  display: none;
+}
 </style>

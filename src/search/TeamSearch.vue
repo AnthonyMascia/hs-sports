@@ -5,7 +5,11 @@
         <div class="col-xl-6 search-bg">
             <div id="search_card" class="card">
                 <div class="card-body text-center">
-                    <input id="search_small" type="text" placeholder="Who Ya Got?" @click="openFullScreenSearch();">
+                    <h1 id="site-header" class="header">A Search of Ice and Fire</h1>
+                    <p id="site-description">Search your favorite NY state high school sports teams.</p>
+                    <input id="search_small" type="text"
+                        placeholder="Who Ya Got?" spellcheck="false"
+                        @click="openFullScreenSearch(); scrollToTop();">
                 </div>
             </div>
         </div>
@@ -45,26 +49,22 @@
         </div>
       </div>
     </div>
-        <input id='search_link' class="w-100" @click.prevent="openFullScreenSearch">-->
+        <input id='search_link' class="w-100" @click.prevent="openFullScreenSearch"> -->
 
-    <div id="search_big_ctnr" @click="closeFullScreenSearch" @keyup="closeFullScreenSearch">
-        <button type="button" class="close">×</button>
-        <form id="search_form" @submit.prevent="doSearch">
+    <div id="search_big_ctnr">
+        <button type="button" class="close" @click="closeFullScreenSearch">×</button>
+        <div id="search_form">
             <div class="row justify-content-center">
                 <div class="col-xl-6">
                     <v-autocomplete
                         :items="items" v-model='item' :get-label='getLabel'
                         @update-items='update' :component-item='tpl'
                         @item-selected="itemSelected" @item-clicked="itemClicked"
-                        :input-attrs="{name: 'input-test', id: 'search_big', autocomplete: 'off'}">
+                        :input-attrs="{id: 'search_big', autocomplete: 'off', spellcheck: 'false'}">
                     </v-autocomplete>
                 </div>
             </div>
-        </form>
-    </div>
-
-    <div>
-
+        </div>
     </div>
   </div>
 </template>
@@ -72,10 +72,9 @@
 <script>
 import Parallax from 'vue-parallaxy';
 import VueScrollTo from 'vue-scrollto';
-import ItemTemplate from './ItemTemplate.vue';
 import Autocomplete from './Autocomplete.vue';
-import tpl from './TplItem.vue';
-import Teams from './teams';
+import tpl from './ItemTemplate.vue';
+import Teams from './assets/teams';
 
 export default {
   props: ['apiKey'],
@@ -94,10 +93,14 @@ export default {
   },
   methods: {
     itemSelected(item) {
-      console.log('Selected item!', item);
+      if (item.id !== undefined) {
+        this.doSearch(item.name);
+      }
     },
     itemClicked(item) {
-      console.log('You clicked an item!', item);
+      if (item.id !== undefined) {
+        this.doSearch(item.name);
+      }
     },
     getLabel(item) {
       if (item) {
@@ -114,6 +117,7 @@ export default {
       const searchInputBig = document.getElementById('search_big');
       const searchInputSmall = document.getElementById('search_small');
 
+      // searchInputBig.value = '';
       searchInputSmall.style.display = 'none';
       searchCtnr.classList.add('open');
       searchInputBig.focus();
@@ -127,17 +131,21 @@ export default {
         searchInputSmall.style.display = 'block';
       }
     },
-    doSearch() {
+    doSearch(teamName) {
       const searchCtnr = document.getElementById('search_big_ctnr');
       const searchInputBig = document.getElementById('search_big');
       const searchInputSmall = document.getElementById('search_small');
 
-      this.query = searchInputBig.value;
-      searchInputSmall.value = searchInputBig.value;
+      this.query = teamName;
+      searchInputBig.value = teamName;
+      searchInputSmall.value = teamName;
       searchCtnr.classList.remove('open');
       searchInputSmall.style.display = 'block';
 
       this.$emit('doSearch', this.query);
+    },
+    scrollToTop() {
+      VueScrollTo.scrollTo('body', 600, {});
     },
   },
   created() {
@@ -157,7 +165,7 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    height: 100%;
+    height: 300px;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -165,30 +173,24 @@ body {
 
 .search-bg {
     position: absolute;
-    height: 500px;
+    height: 300px;
     background: transparent
 }
 
-    .search-bg.blur {
-        background-position-y: 49.9915%;
+    /* .search-bg.blur {
         filter: blur(7px);
         -webkit-filter: blur(7px);
-        background: gray !important;
-        opacity: 0.5;
-    }
+        background: url(../assets/img/football-bg.jpg) no-repeat center center;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+        background-position-y: 0;
+    } */
 
 #search_card {
     height: 100%;
     background: transparent;
     border: none;
 }
-
-#search_card .card-body {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-
 .Masthead {
     height: 100vh !important;
 }
@@ -267,22 +269,8 @@ body {
     top: 15px;
     right: 15px;
     color: #fff;
-    background-color: #428bca;
-    border-color: #357ebd;
     opacity: 1;
     padding: 10px 17px;
     font-size: 27px;
-}
-
-
-.v-autocomplete .v-autocomplete-input-group .v-autocomplete-input {
-    font-size: 1.5em;
-    padding: 10px 15px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border: 1px solid #157977;
-    width: calc(100% - 32px);
-    outline: none;
-    background-color: #eee;
 }
 </style>

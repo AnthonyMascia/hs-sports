@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="v-autocomplete">
     <div class="v-autocomplete-input-group" :class="{'v-autocomplete-selected': value}">
       <input type="search" v-model="searchText" v-bind="inputAttrs"
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import Item from './Item.vue';
-import utils from './utils';
+import ComponentItem from './ComponentItem.vue';
+import utils from './assets/autocomplete-utils';
 
 export default {
   name: 'v-autocomplete',
   props: {
-    componentItem: { default: () => Item },
+    componentItem: { default: () => ComponentItem },
     minLen: { type: Number, default: utils.minLen },
     wait: { type: Number, default: utils.wait },
     value: null,
@@ -60,7 +60,8 @@ export default {
   },
   methods: {
     inputChange() {
-      this.showList = true;
+      this.searchText = this.searchText.trim();
+      this.showList = this.searchText.length > 0;
       this.cursor = -1;
       this.onSelectItem(null, 'inputChange');
       utils.callUpdateItems(this.searchText, this.updateItems);
@@ -73,28 +74,31 @@ export default {
 
     focus() {
       this.$emit('focus', this.searchText);
-      this.showList = true;
+      if (this.searchText.length > 0) {
+        this.showList = true;
+      }
     },
 
     blur() {
       this.$emit('blur', this.searchText);
+      this.searchText = '';
       setTimeout(() => this.showList = false, 200);
     },
 
     onClickItem(item) {
       this.onSelectItem(item);
       this.$emit('item-clicked', item);
+      this.searchText = '';
     },
 
     onSelectItem(item) {
-      if (item) {
+      if (item && Object.keys(item).includes('id')) {
         this.internalItems = [item];
         this.searchText = this.getLabel(item);
         this.$emit('item-selected', item);
       } else {
         this.setItems(this.items);
       }
-      this.$emit('input', item);
     },
 
     setItems(items) {
@@ -185,6 +189,10 @@ export default {
   left: 0;
   bottom: 0;
   right: 0;
+  height: 100px;
+  max-height: 600px;
+  min-height: 400px;
+  overflow: auto;
 }
 
 .v-autocomplete-list-item {

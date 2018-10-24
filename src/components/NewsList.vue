@@ -9,9 +9,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row news-row">
-                                <div class="col-md-3">
-                                    <img class="img-fluid"
-                                        v-bind:src="article.pagemap.cse_thumbnail[0].src">
+                                <div v-if="hasThumbnail(article)" class="col-md-3">
+                                    <img v-bind:src="article.pagemap.cse_thumbnail[0].src"
+                                     class="img-fluid" >
+                                </div>
+                                <div v-else class="col-md-3">
+                                    <span>No thumbnail</span>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="card-body">
@@ -28,6 +31,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row mb-2" v-if="articles == null">
+              No Results
             </div>
         </div>
       </div>
@@ -48,6 +54,13 @@ export default {
     };
   },
   methods: {
+    hasThumbnail(obj) {
+      if (obj.pagemap !== undefined && obj.pagemap.cse_thumbnail !== undefined) {
+        return true;
+      }
+
+      return false;
+    },
     updateQuery(query) {
       const trimmedQuery = query.trim();
 
@@ -61,6 +74,10 @@ export default {
             '&sort=date')
           .then((res) => {
             this.articles = res.data.items;
+
+            if (res.data.items !== undefined) {
+              VueScrollTo.scrollTo('.news-list', 1200, {});
+            }
           });
       } else {
         axios
@@ -70,7 +87,7 @@ export default {
           .then((res) => {
             this.articles = res.data.items;
 
-            if (res.data.items !== 'undefined') {
+            if (res.data.items !== undefined) {
               VueScrollTo.scrollTo('.news-list', 1200, {});
             }
           });
