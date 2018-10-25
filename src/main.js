@@ -6,8 +6,10 @@ import 'v-autocomplete/dist/v-autocomplete.css';
 // Relative imports.
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import Autocomplete from 'v-autocomplete';
 import App from './App.vue';
+
+// Imports with no types.
+const Autocomplete = require('v-autocomplete');
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

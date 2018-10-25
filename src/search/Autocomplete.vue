@@ -82,7 +82,7 @@ export default {
     blur() {
       this.$emit('blur', this.searchText);
       this.searchText = '';
-      setTimeout(() => this.showList = false, 200);
+      setTimeout(() => { this.showList = false; }, 200);
     },
 
     onClickItem(item) {
@@ -106,7 +106,7 @@ export default {
     },
 
     isSelectedValue(value) {
-      return this.internalItems.length == 1 && value == this.internalItems[0];
+      return this.internalItems.length === 1 && value === this.internalItems[0];
     },
 
     keyUp() {

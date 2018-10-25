@@ -1,4 +1,4 @@
-# hs-sports
+# Varsity-Feed
 
 ## Project setup
 ```

@@ -20,7 +20,7 @@ export default {
     return {
       query: '',
       apiKey: 'AIzaSyBfWEvSxJQV6vlC7FAkl5KwENFZAdJPtY8',
-      cx: '005814160350276824345:bwt9yjzyyn0',
+      cx: '005814160350276824345:ell0sjrulya',
     };
   },
   methods: {
@@ -32,10 +32,10 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Lato|Orbitron:900');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Orbitron:900');
 
 #app {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 ::-webkit-scrollbar {

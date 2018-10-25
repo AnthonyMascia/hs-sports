@@ -12,7 +12,6 @@ export default {
   },
 
   callUpdateItems(text, cb) {
-    console.log('callUpdateItems');
     clearTimeout(this.timeout);
     if (this.isUpdateItems(text)) {
       this.timeout = setTimeout(cb, this.wait);
@@ -20,9 +19,11 @@ export default {
   },
 
   findItem(items, text, autoSelectOneResult) {
-    if (!text) return;
+    if (!text) return null;
     if (autoSelectOneResult && items.length === 1) {
       return items[0];
     }
+
+    return null;
   },
 };

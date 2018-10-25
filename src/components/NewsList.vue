@@ -1,64 +1,35 @@
 <template>
-  <div class="news-list">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="news-list">
-            <div class="row card news-card" v-if="articles != null" v-for="article in articles" :key="article.cacheId">
-                <div class="col-xl-3 col-12 img-ctnr">
-                  <img v-if="hasThumbnail(article)" :src="article.pagemap.cse_thumbnail[0].src" />
-                  <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png" />
-                </div>
-                <div class="col-xl-9 col-12 info-ctnr">
-                    <h2>{{ article.title }}</h2>
-                    <p>{{ article.snippet }}</p>
-                    <p>13 hours ago </p>
-                </div>
+  <div class="news-ctnr">
+    <div class="row justify-content-center">
+      <div class="col-xl-8 col-lg-9 col-md-11 col-sm-11 col-10">
+        <div class="news-list">
+          <div class="row">
+            <div class="col-12">
+              <ul>
+                <li v-if="articles != null" v-for="article in articles" :key="article.cacheId">
+                  <a :href="article.link" target="_blank">
+                    <div class="card card-cascade narrower" >
+                      <div class="view view-cascade overlay">
+                        <img v-if="hasThumbnail(article)" :src="article.pagemap.cse_thumbnail[0].src" />
+                        <img v-else src="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg" style="object-fit:contain;" />
+                      </div>
+                      <div class="card-body card-body-cascade">
+                        <h4 class="font-weight-bold card-title">{{ article.title }}</h4>
+                        <p class="card-text">{{ article.snippet }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <!-- <li v-else>
+                  <div class="card card-cascade narrower" >
+                    <div class="card-body card-body-cascade no-results">
+                      <span>No Results</span>
+                    </div>
+                  </div>
+                </li> -->
+              </ul>
             </div>
           </div>
-          <!-- <ul class="event-list" v-if="articles != null" v-for="article in articles" :key="article.cacheId">
-            <li v-bind:href="article.link">
-              <img v-if="hasThumbnail(article)" :src="article.pagemap.cse_thumbnail[0].src" />
-              <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png" />
-              <div class="info">
-                <h2 class="title">{{article.title}}</h2>
-                <p class="desc">{{article.snippet}}</p>
-                <p>13 hours ago </p>
-              </div>
-            </li>
-          </ul> -->
-            <!-- <div class="row mb-2"
-                v-for="article in articles" v-if="articles != null" :key="article.cacheId">
-                <div class="col-md-12">
-                    <div class="card news-card">
-                        <div class="card-body">
-                            <div class="row news-row">
-                                <div class="col-md-3">
-                                    <img v-if="hasThumbnail(article)" v-bind:src="article.pagemap.cse_thumbnail[0].src"
-                                     class="img-fluid" >
-                                     <div v-else>
-                                       <span>No thumbnail</span>
-                                     </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <div class="news-content">
-                                            <a target="_blank"
-                                                v-bind:href="article.link">
-                                                    <h2>{{article.title}}</h2>
-                                            </a>
-                                            <p>{{article.snippet}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-2" v-if="articles == null">
-              No Results
-            </div> -->
         </div>
       </div>
     </div>
@@ -128,141 +99,147 @@ export default {
 
 <style scoped>
 
-.card.news-card {
-  height: 10rem;
-  flex-direction: inherit;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
-  border: none;
+.news-ctnr {
+  background-color: #eee;
 }
 
-.info-ctnr {
-    padding: 10px 5px;
+.card.card-cascade {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    min-height: 220px;
+}
+
+.card {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+    border: 0;
+    font-weight: 400;
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+ul {
+  list-style: none;
+}
+
+  ul > li:nth-child(even) > a > .card {
+    flex-direction: row-reverse;
   }
 
-.img-ctnr {
+  ul > li:nth-child(odd) > a > .card {
+    flex-direction: row;
+  }
+
+.card.card-cascade .view.view-cascade {
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    border-radius: .25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #747373
+}
+
+.view {
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+.card-img-top {
+    width: 100%;
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+}
+img {
+    border-style: none;
+    position: relative;
+    display: block;
+    min-width: 100%;
+    min-height: 100%;
+    align-items: center;
+    object-fit: cover;
+    max-height: 0;
+}
+.overlay .mask {
+    opacity: 0;
+    -webkit-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+.view .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     padding: 0;
 }
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
 
-  .img-ctnr > img {
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
-    height: 100px;
+.card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.9rem;
+    color: black
+}
+
+.card-text {
+  font-size: 1.3rem;
+    color: #747373;
+}
+
+.no-results {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #747373;
+}
+
+a {
+  text-decoration: none;
+}
+
+  a:hover {
+    text-decoration: none;
   }
 
-.event-list {
-		list-style: none;
-		margin: 0px;
-		padding: 0px;
-	}
-	.event-list > li {
-		background-color: rgb(255, 255, 255);
-		box-shadow: 0px 0px 5px rgb(51, 51, 51);
-		box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
-		padding: 0px;
-		margin: 0px 0px 20px;
-	}
-	.event-list > li > time {
-		display: inline-block;
-		width: 100%;
-		color: rgb(255, 255, 255);
-		background-color: rgb(197, 44, 102);
-		padding: 5px;
-		text-align: center;
-		text-transform: uppercase;
-	}
-  
-	.event-list > li > img {
-		width: 100%;
-	}
-	.event-list > li > .info {
-		padding-top: 5px;
-		text-align: center;
-	}
-	.event-list > li > .info > .title {
-		font-size: 17pt;
-		font-weight: 700;
-		margin: 0px;
-	}
-	.event-list > li > .info > .desc {
-		font-size: 13pt;
-		font-weight: 300;
-		margin: 0px;
-	}
-	.event-list > li > .info > ul {
-		display: table;
-		list-style: none;
-		margin: 10px 0px 0px;
-		padding: 0px;
-		width: 100%;
-		text-align: center;
-	}
-  
-	.event-list > li > .info > ul > li {
-		display: table-cell;
-		cursor: pointer;
-		color: rgb(30, 30, 30);
-		font-size: 11pt;
-		font-weight: 300;
-        padding: 3px 0px;
-	}
-    .event-list > li > .info > ul > li > a {
-		display: block;
-		width: 100%;
-		color: rgb(30, 30, 30);
-		text-decoration: none;
-	} 
-	.event-list > li > .info > ul > li:hover {
-		color: rgb(30, 30, 30);
-		background-color: rgb(200, 200, 200);
-	}
-
-	@media (min-width: 768px) {
-		.event-list > li {
-			position: relative;
-			display: block;
-			width: 100%;
-			height: 10rem;
-			padding: 0px;
-		}
-    
-		.event-list > li > img  {
-			display: inline-block;
-		}
-    
-		.event-list > li > img {
-			width: 10rem;
-			float: left;
-		}
-		.event-list > li > .info {
-			background-color: rgb(245, 245, 245);
-			overflow: hidden;
-		}
-		.event-list > li > img {
-			padding: 0px;
-			margin: 0px;
-		}
-		.event-list > li > .info {
-			position: relative;
-			height: 10rem;
-			text-align: left;
-			padding-right: 40px;
-		}	
-		.event-list > li > .info > .title, 
-		.event-list > li > .info > .desc, 
-		.event-list > li > .info > .time, {
-			padding: 0px 10px;
-		}
-		.event-list > li > .info > ul {
-			position: absolute;
-			left: 0px;
-			bottom: 0px;
-		}
-	}
+/* Phone */
+@media (max-width:576px) {
+  .img-ctnr > img {
+    height: 200px;
+  }
+}
 </style>
