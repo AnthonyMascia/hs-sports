@@ -2,19 +2,43 @@
   <div class="news-list">
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
-            <div class="row mb-2"
+        <div class="col-12">
+          <div class="news-list">
+            <div class="row card news-card" v-if="articles != null" v-for="article in articles" :key="article.cacheId">
+                <div class="col-xl-3 col-12 img-ctnr">
+                  <img v-if="hasThumbnail(article)" :src="article.pagemap.cse_thumbnail[0].src" />
+                  <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png" />
+                </div>
+                <div class="col-xl-9 col-12 info-ctnr">
+                    <h2>{{ article.title }}</h2>
+                    <p>{{ article.snippet }}</p>
+                    <p>13 hours ago </p>
+                </div>
+            </div>
+          </div>
+          <!-- <ul class="event-list" v-if="articles != null" v-for="article in articles" :key="article.cacheId">
+            <li v-bind:href="article.link">
+              <img v-if="hasThumbnail(article)" :src="article.pagemap.cse_thumbnail[0].src" />
+              <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png" />
+              <div class="info">
+                <h2 class="title">{{article.title}}</h2>
+                <p class="desc">{{article.snippet}}</p>
+                <p>13 hours ago </p>
+              </div>
+            </li>
+          </ul> -->
+            <!-- <div class="row mb-2"
                 v-for="article in articles" v-if="articles != null" :key="article.cacheId">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card news-card">
                         <div class="card-body">
                             <div class="row news-row">
-                                <div v-if="hasThumbnail(article)" class="col-md-3">
-                                    <img v-bind:src="article.pagemap.cse_thumbnail[0].src"
+                                <div class="col-md-3">
+                                    <img v-if="hasThumbnail(article)" v-bind:src="article.pagemap.cse_thumbnail[0].src"
                                      class="img-fluid" >
-                                </div>
-                                <div v-else class="col-md-3">
-                                    <span>No thumbnail</span>
+                                     <div v-else>
+                                       <span>No thumbnail</span>
+                                     </div>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="card-body">
@@ -34,7 +58,7 @@
             </div>
             <div class="row mb-2" v-if="articles == null">
               No Results
-            </div>
+            </div> -->
         </div>
       </div>
     </div>
@@ -103,14 +127,142 @@ export default {
 </script>
 
 <style scoped>
-  .news-row {
-    justify-content: center;
-    align-items: center;
-    display: flex;
+
+.card.news-card {
+  height: 10rem;
+  flex-direction: inherit;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+  border: none;
+}
+
+.info-ctnr {
+    padding: 10px 5px;
   }
 
-  .card-body {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.img-ctnr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+  .img-ctnr > img {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    height: 100px;
   }
+
+.event-list {
+		list-style: none;
+		margin: 0px;
+		padding: 0px;
+	}
+	.event-list > li {
+		background-color: rgb(255, 255, 255);
+		box-shadow: 0px 0px 5px rgb(51, 51, 51);
+		box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+		padding: 0px;
+		margin: 0px 0px 20px;
+	}
+	.event-list > li > time {
+		display: inline-block;
+		width: 100%;
+		color: rgb(255, 255, 255);
+		background-color: rgb(197, 44, 102);
+		padding: 5px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+  
+	.event-list > li > img {
+		width: 100%;
+	}
+	.event-list > li > .info {
+		padding-top: 5px;
+		text-align: center;
+	}
+	.event-list > li > .info > .title {
+		font-size: 17pt;
+		font-weight: 700;
+		margin: 0px;
+	}
+	.event-list > li > .info > .desc {
+		font-size: 13pt;
+		font-weight: 300;
+		margin: 0px;
+	}
+	.event-list > li > .info > ul {
+		display: table;
+		list-style: none;
+		margin: 10px 0px 0px;
+		padding: 0px;
+		width: 100%;
+		text-align: center;
+	}
+  
+	.event-list > li > .info > ul > li {
+		display: table-cell;
+		cursor: pointer;
+		color: rgb(30, 30, 30);
+		font-size: 11pt;
+		font-weight: 300;
+        padding: 3px 0px;
+	}
+    .event-list > li > .info > ul > li > a {
+		display: block;
+		width: 100%;
+		color: rgb(30, 30, 30);
+		text-decoration: none;
+	} 
+	.event-list > li > .info > ul > li:hover {
+		color: rgb(30, 30, 30);
+		background-color: rgb(200, 200, 200);
+	}
+
+	@media (min-width: 768px) {
+		.event-list > li {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 10rem;
+			padding: 0px;
+		}
+    
+		.event-list > li > img  {
+			display: inline-block;
+		}
+    
+		.event-list > li > img {
+			width: 10rem;
+			float: left;
+		}
+		.event-list > li > .info {
+			background-color: rgb(245, 245, 245);
+			overflow: hidden;
+		}
+		.event-list > li > img {
+			padding: 0px;
+			margin: 0px;
+		}
+		.event-list > li > .info {
+			position: relative;
+			height: 10rem;
+			text-align: left;
+			padding-right: 40px;
+		}	
+		.event-list > li > .info > .title, 
+		.event-list > li > .info > .desc, 
+		.event-list > li > .info > .time, {
+			padding: 0px 10px;
+		}
+		.event-list > li > .info > ul {
+			position: absolute;
+			left: 0px;
+			bottom: 0px;
+		}
+	}
 </style>

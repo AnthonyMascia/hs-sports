@@ -19,8 +19,8 @@ export default {
   data() {
     return {
       query: '',
-      apiKey: 'AIzaSyAaoPjbYH0gT0C_Y_2ECFwIh3w5DSmaE-s',
-      cx: '005814160350276824345:ell0sjrulya',
+      apiKey: 'AIzaSyBfWEvSxJQV6vlC7FAkl5KwENFZAdJPtY8',
+      cx: '005814160350276824345:bwt9yjzyyn0',
     };
   },
   methods: {
