@@ -3,19 +3,13 @@
     <div
         id="search_ctnr"
         class="row justify-content-center">
-        <div
-            class="col-xl-6 search-bg blur"></div>
-        <div
-            class="col-xl-6 search-bg">
-            <div
-                id="search_card"
+        <div class="col-xl-6 search-bg blur"></div>
+        <div class="col-xl-6 search-bg">
+            <div id="search_card"
                 class="card">
-                <div
-                    class="card-body text-center">
-                    <h1
-                        id="site_header">Varsity Feed</h1>
-                    <p
-                        id="site_description">
+                <div class="card-body text-center">
+                    <h1 id="site_header">Varsity Feed</h1>
+                    <p id="site_description">
                         Get the latest from your favorite New York high school sports teams.
                     </p>
                     <input
@@ -30,8 +24,7 @@
             </div>
         </div>
     </div>
-    <div
-        class="parallax-container">
+    <div class="parallax-container">
         <parallax
             :speed-factor="0.3"
             direction="up"
@@ -50,12 +43,9 @@
             @click="closeFullScreenSearch">
             ×
         </button>
-        <div
-            id="search_form">
-            <div
-                class="row justify-content-center">
-                <div
-                    class="col-xl-6">
+        <div id="search_form">
+            <div class="row justify-content-center">
+                <div class="col-xl-6">
                     <v-autocomplete
                         :items="items"
                         v-model='item'
