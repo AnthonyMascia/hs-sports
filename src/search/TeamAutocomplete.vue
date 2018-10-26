@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import ComponentItem from './ComponentItem.vue';
+import TeamItem from './TeamItem.vue';
 import utils from './assets/autocomplete-utils';
 
 export default {
   name: 'v-autocomplete',
   props: {
-    componentItem: { default: () => ComponentItem },
+    componentItem: { default: () => TeamItem },
     minLen: { type: Number, default: utils.minLen },
     wait: { type: Number, default: utils.wait },
     value: null,

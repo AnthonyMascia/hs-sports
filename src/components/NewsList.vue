@@ -6,28 +6,39 @@
           <div class="row">
             <div class="col-12">
               <ul>
-                <li v-if="articles != null" v-for="article in articles" :key="article.cacheId">
-                  <a :href="article.link" target="_blank">
-                    <div class="card card-cascade narrower" >
-                      <div class="view view-cascade overlay">
-                        <img v-if="hasThumbnail(article)"
-                          :src="article.pagemap.cse_thumbnail[0].src" />
-                        <img v-else src="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg" style="object-fit:contain;" />
+                <articletemplate v-if="articles.length">
+                  <li
+                    v-for="(article, index) in articles"
+                    :key="index"
+                  >
+                    <a :href="article.link" target="_blank">
+                      <div class="card card-cascade narrower" >
+                        <div class="view view-cascade overlay">
+                          <img
+                            v-if="hasThumbnail(article)"
+                            :src="article.pagemap.cse_thumbnail[0].src"
+                          />
+                          <img
+                            v-else
+                            src="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg"
+                            class="img-ctn" />
+                        </div>
+                        <div class="card-body card-body-cascade">
+                          <h4 class="font-weight-bold card-title">{{ article.title }}</h4>
+                          <p class="card-text">{{ article.snippet }}</p>
+                        </div>
                       </div>
-                      <div class="card-body card-body-cascade">
-                        <h4 class="font-weight-bold card-title">{{ article.title }}</h4>
-                        <p class="card-text">{{ article.snippet }}</p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <!-- <li v-else>
+                    </a>
+                  </li>
+                </articletemplate>
+                <articletemplate v-else>
+                  <li>
                   <div class="card card-cascade narrower" >
                     <div class="card-body card-body-cascade no-results">
                       <span>No Results</span>
                     </div>
                   </div>
-                </li> -->
+                </articletemplate>
               </ul>
             </div>
           </div>
@@ -42,8 +53,21 @@ const axios = require('axios');
 const VueScrollTo = require('vue-scrollto');
 
 export default {
-  name: 'news-list',
-  props: ['query', 'apiKey', 'cx'],
+  name: 'NewsList',
+  props: {
+    query: {
+      type: String,
+      required: true,
+    },
+    apiKey: {
+      type: String,
+      required: true,
+    },
+    cx: {
+      type: String,
+      require: true,
+    },
+  },
   data() {
     return {
       articles: [],
@@ -237,6 +261,9 @@ a {
     text-decoration: none;
   }
 
+.img-ctn {
+  object-fit:contain;
+}
 /* Phone */
 @media (max-width:576px) {
   .img-ctnr > img {

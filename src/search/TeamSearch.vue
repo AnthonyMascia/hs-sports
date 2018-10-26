@@ -1,36 +1,69 @@
 <template>
   <div>
-    <div id="search_ctnr" class="row justify-content-center">
-        <div class="col-xl-6 search-bg blur"></div>
-        <div class="col-xl-6 search-bg">
-            <div id="search_card" class="card">
-                <div class="card-body text-center">
-                    <h1 id="site_header">Varsity Feed</h1>
-                    <p id="site_description">
+    <div
+        id="search_ctnr"
+        class="row justify-content-center">
+        <div
+            class="col-xl-6 search-bg blur"></div>
+        <div
+            class="col-xl-6 search-bg">
+            <div
+                id="search_card"
+                class="card">
+                <div
+                    class="card-body text-center">
+                    <h1
+                        id="site_header">Varsity Feed</h1>
+                    <p
+                        id="site_description">
                         Get the latest from your favorite New York high school sports teams.
                     </p>
-                    <input id="search_small" type="text" class="text-center"
-                        placeholder="Who Ya Got?" spellcheck="false"
-                        @click="openFullScreenSearch(); scrollToTop();">
+                    <input
+                        id="search_small"
+                        type="text"
+                        class="text-center"
+                        placeholder="Who Ya Got?"
+                        spellcheck="false"
+                        @click="openFullScreenSearch(); scrollToTop();"
+                    >
                 </div>
             </div>
         </div>
     </div>
-    <div class="parallax-container">
-        <parallax :speed-factor="0.3" direction="up" breakpoint="(min-width: 80px)">
-            <img src="../assets/img/football-bg.jpg" class="parallax-img">
+    <div
+        class="parallax-container">
+        <parallax
+            :speed-factor="0.3"
+            direction="up"
+            breakpoint="(min-width: 80px)">
+            <img
+                src="../assets/img/football-bg.jpg"
+                class="parallax-img"
+            >
         </parallax>
     </div>
 
     <div id="search_big_ctnr">
-        <button type="button" class="close" @click="closeFullScreenSearch">×</button>
-        <div id="search_form">
-            <div class="row justify-content-center">
-                <div class="col-xl-6">
+        <button
+            type="button"
+            class="close"
+            @click="closeFullScreenSearch">
+            ×
+        </button>
+        <div
+            id="search_form">
+            <div
+                class="row justify-content-center">
+                <div
+                    class="col-xl-6">
                     <v-autocomplete
-                        :items="items" v-model='item' :get-label='getLabel'
-                        @update-items='update' :component-item='tpl'
-                        @item-selected="itemSelected" @item-clicked="itemClicked"
+                        :items="items"
+                        v-model='item'
+                        :get-label='getLabel'
+                        @update-items='update'
+                        :component-item='tpl'
+                        @item-selected="itemSelected"
+                        @item-clicked="itemClicked"
                         @blur="focusBigSearch()"
                         :input-attrs="{id: 'search_big', autocomplete: 'off', spellcheck: 'false'}">
                     </v-autocomplete>
@@ -42,26 +75,32 @@
 </template>
 
 <script>
-import Parallax from 'vue-parallaxy';
+import VueParallax from 'vue-parallaxy';
 import VueScrollTo from 'vue-scrollto';
-import Autocomplete from './Autocomplete.vue';
-import tpl from './ItemTemplate.vue';
+import TeamAutocomplete from './TeamAutocomplete.vue';
+import TeamItemTemplate from './TeamItemTemplate.vue';
 import Teams from './assets/teams';
 
 export default {
-  props: ['apiKey'],
+  name: 'TeamSearch',
+  props: {
+    apiKey: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       query: [],
       itemsApi: [],
       item: { },
       items: [],
-      tpl,
+      TeamItemTemplate,
     };
   },
   components: {
-    Parallax,
-    'v-autocomplete': Autocomplete,
+    VueParallax,
+    'v-autocomplete': TeamAutocomplete,
   },
   methods: {
     focusBigSearch() {
