@@ -10,7 +10,8 @@
                   <a :href="article.link" target="_blank">
                     <div class="card card-cascade narrower" >
                       <div class="view view-cascade overlay">
-                        <img v-if="hasThumbnail(article)" :src="article.pagemap.cse_thumbnail[0].src" />
+                        <img v-if="hasThumbnail(article)"
+                          :src="article.pagemap.cse_thumbnail[0].src" />
                         <img v-else src="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg" style="object-fit:contain;" />
                       </div>
                       <div class="card-body card-body-cascade">

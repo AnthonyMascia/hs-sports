@@ -32,21 +32,16 @@ export default {
       const constSiteDescrip = document.getElementById('news_ctnr');
       const distanceToTop = constSiteDescrip.getBoundingClientRect().top;
 
-      if (distanceToTop <= 0){
-        if (!searchSmall.classList.contains('sticky'))
-        {
+      if (distanceToTop <= 0) {
+        if (!searchSmall.classList.contains('sticky')) {
           searchSmall.classList.add('sticky');
         }
-      }
-      else {
-        if (searchSmall.classList.contains('sticky'))
-        {
-          searchSmall.classList.remove('sticky');
-        }
+      } else if (searchSmall.classList.contains('sticky')) {
+        searchSmall.classList.remove('sticky');
       }
     },
   },
-  created () {
+  created() {
     window.addEventListener('scroll', this.stickySearch);
   },
 };

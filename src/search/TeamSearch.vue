@@ -64,9 +64,9 @@ export default {
     'v-autocomplete': Autocomplete,
   },
   methods: {
-    focusBigSearch(){
-        const searchInputBig = document.getElementById('search_big');
-        searchInputBig.focus();
+    focusBigSearch() {
+      const searchInputBig = document.getElementById('search_big');
+      searchInputBig.focus();
     },
     itemSelected(item) {
       if (item.id !== undefined) {
