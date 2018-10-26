@@ -1,8 +1,8 @@
 <template>
-  <div class="news-ctnr">
+  <div id="news_ctnr">
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-9 col-md-11 col-sm-11 col-10">
-        <div class="news-list">
+        <div id="news_list">
           <div class="row">
             <div class="col-12">
               <ul>
@@ -71,7 +71,7 @@ export default {
             this.articles = res.data.items;
 
             if (res.data.items !== undefined) {
-              VueScrollTo.scrollTo('.news-list', 1200, {});
+              VueScrollTo.scrollTo('#news_list', 1200, {});
             }
           });
       } else {
@@ -83,7 +83,7 @@ export default {
             this.articles = res.data.items;
 
             if (res.data.items !== undefined) {
-              VueScrollTo.scrollTo('.news-list', 1200, {});
+              VueScrollTo.scrollTo('#news_list', 1200, {});
             }
           });
       }
@@ -99,7 +99,7 @@ export default {
 
 <style scoped>
 
-.news-ctnr {
+#news_ctnr {
   background-color: #eee;
 }
 

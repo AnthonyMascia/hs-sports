@@ -31,6 +31,7 @@
                         :items="items" v-model='item' :get-label='getLabel'
                         @update-items='update' :component-item='tpl'
                         @item-selected="itemSelected" @item-clicked="itemClicked"
+                        @blur="focusBigSearch()"
                         :input-attrs="{id: 'search_big', autocomplete: 'off', spellcheck: 'false'}">
                     </v-autocomplete>
                 </div>
@@ -63,6 +64,10 @@ export default {
     'v-autocomplete': Autocomplete,
   },
   methods: {
+    focusBigSearch(){
+        const searchInputBig = document.getElementById('search_big');
+        searchInputBig.focus();
+    },
     itemSelected(item) {
       if (item.id !== undefined) {
         this.doSearch(item.name);
@@ -180,7 +185,6 @@ body {
 }
 
 #search_small {
-    height: 100%;
     background: #fff;
     border-radius: .5px;
     border: 0;
@@ -188,10 +192,22 @@ body {
     width: 100%;
     padding: 10px 32px;
     font-size: 20px;
+    height: 50px;
 }
 
     #search_small:focus {
         border: none !important;
+    }
+
+    #search_small.sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-size: 1.2rem;
+        z-index: 200;
     }
 
 #search_big_ctnr {
@@ -201,6 +217,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
 
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;

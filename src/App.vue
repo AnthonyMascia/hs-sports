@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @scroll="stickySearch">
     <TeamSearch :apiKey="apiKey" :cx="cx" v-on:doSearch="doSearch"></TeamSearch>
     <NewsList :apiKey="apiKey" :cx="cx" v-bind:query="query"></NewsList>
 
@@ -27,6 +27,27 @@ export default {
     doSearch(query) {
       this.query = query;
     },
+    stickySearch() {
+      const searchSmall = document.getElementById('search_small');
+      const constSiteDescrip = document.getElementById('news_ctnr');
+      const distanceToTop = constSiteDescrip.getBoundingClientRect().top;
+
+      if (distanceToTop <= 0){
+        if (!searchSmall.classList.contains('sticky'))
+        {
+          searchSmall.classList.add('sticky');
+        }
+      }
+      else {
+        if (searchSmall.classList.contains('sticky'))
+        {
+          searchSmall.classList.remove('sticky');
+        }
+      }
+    },
+  },
+  created () {
+    window.addEventListener('scroll', this.stickySearch);
   },
 };
 </script>
