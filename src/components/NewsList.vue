@@ -8,20 +8,22 @@
               <ul>
                 <articletemplate v-if="articles.length">
                   <li
-                    v-for="(article, index) in articles"
                     :key="index"
-                  >
-                    <a :href="article.link" target="_blank">
+                    v-for="(article, index) in articles">
+                    <a
+                      :href="article.link"
+                      target="_blank">
                       <div class="card card-cascade narrower" >
                         <div class="view view-cascade overlay">
                           <img
-                            v-if="hasThumbnail(article)"
                             :src="article.pagemap.cse_thumbnail[0].src"
+                            v-if="hasThumbnail(article)"
                           />
                           <img
                             v-else
                             src="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg"
-                            class="img-ctn" />
+                            class="img-ctn"
+                          />
                         </div>
                         <div class="card-body card-body-cascade">
                           <h4 class="font-weight-bold card-title">{{ article.title }}</h4>
@@ -33,11 +35,12 @@
                 </articletemplate>
                 <articletemplate v-else>
                   <li>
-                  <div class="card card-cascade narrower" >
-                    <div class="card-body card-body-cascade no-results">
-                      <span>No Results</span>
+                    <div class="card card-cascade narrower" >
+                      <div class="card-body card-body-cascade no-results">
+                        <span>No Results</span>
+                      </div>
                     </div>
-                  </div>
+                  </li>
                 </articletemplate>
               </ul>
             </div>

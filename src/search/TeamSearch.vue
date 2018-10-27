@@ -2,10 +2,12 @@
   <div>
     <div
         id="search_ctnr"
-        class="row justify-content-center">
+        class="row justify-content-center"
+    >
         <div class="col-xl-6 search-bg blur"></div>
         <div class="col-xl-6 search-bg">
-            <div id="search_card"
+            <div
+                id="search_card"
                 class="card">
                 <div class="card-body text-center">
                     <h1 id="site_header">Varsity Feed</h1>
@@ -28,7 +30,8 @@
         <parallax
             :speed-factor="0.3"
             direction="up"
-            breakpoint="(min-width: 80px)">
+            breakpoint="(min-width: 80px)"
+        >
             <img
                 src="../assets/img/football-bg.jpg"
                 class="parallax-img"
@@ -40,7 +43,8 @@
         <button
             type="button"
             class="close"
-            @click="closeFullScreenSearch">
+            @click="closeFullScreenSearch"
+        >
             ×
         </button>
         <div id="search_form">
@@ -48,14 +52,15 @@
                 <div class="col-xl-6">
                     <v-autocomplete
                         :items="items"
-                        v-model='item'
                         :get-label='getLabel'
-                        @update-items='update'
                         :component-item='tpl'
+                        :input-attrs="{id: 'search_big', autocomplete: 'off', spellcheck: 'false'}"
+                        v-model='item'
+                        @update-items='update'
                         @item-selected="itemSelected"
                         @item-clicked="itemClicked"
                         @blur="focusBigSearch()"
-                        :input-attrs="{id: 'search_big', autocomplete: 'off', spellcheck: 'false'}">
+                    >
                     </v-autocomplete>
                 </div>
             </div>
@@ -65,7 +70,7 @@
 </template>
 
 <script>
-import VueParallax from 'vue-parallaxy';
+import Parallax from 'vue-parallaxy';
 import VueScrollTo from 'vue-scrollto';
 import TeamAutocomplete from './TeamAutocomplete.vue';
 import TeamItemTemplate from './TeamItemTemplate.vue';
@@ -89,7 +94,7 @@ export default {
     };
   },
   components: {
-    VueParallax,
+    Parallax,
     'v-autocomplete': TeamAutocomplete,
   },
   methods: {

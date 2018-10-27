@@ -1,13 +1,20 @@
 <template>
   <div class="v-autocomplete">
     <div class="v-autocomplete-input-group" :class="{'v-autocomplete-selected': value}">
-      <input type="search" v-model="searchText" v-bind="inputAttrs"
-            :class="inputAttrs.class || inputClass"
-            :placeholder="inputAttrs.placeholder || placeholder"
-            :disabled="inputAttrs.disabled || disabled"
-            @blur="blur" @focus="focus" @input="inputChange"
-            @keyup.enter="keyEnter" @keydown.tab="keyEnter"
-            @keydown.up="keyUp" @keydown.down="keyDown" >
+      <input type="search" 
+        v-model="searchText" 
+        v-bind="inputAttrs"
+        :class="inputAttrs.class || inputClass"
+        :placeholder="inputAttrs.placeholder || placeholder"
+        :disabled="inputAttrs.disabled || disabled"
+        @blur="blur" 
+        @focus="focus" 
+        @input="inputChange"
+        @keyup.enter="keyEnter" 
+        @keydown.tab="keyEnter"
+        @keydown.up="keyUp" 
+        @keydown.down="keyDown" 
+      >
     </div>
     <div class="v-autocomplete-list" v-if="show">
       <div class="v-autocomplete-list-item" v-for="(item, i) in internalItems" :key="i"
@@ -24,7 +31,7 @@ import TeamItem from './TeamItem.vue';
 import utils from './assets/autocomplete-utils';
 
 export default {
-  name: 'v-autocomplete',
+  name: 'TeamAutocomplete',
   props: {
     componentItem: { default: () => TeamItem },
     minLen: { type: Number, default: utils.minLen },
