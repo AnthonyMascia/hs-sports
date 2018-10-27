@@ -5,8 +5,8 @@
         <div id="news_list">
           <div class="row">
             <div class="col-12">
-              <ul>
-                <articletemplate v-if="articles.length">
+              <div v-if="articles !== undefined">
+                <ul>
                   <li
                     :key="index"
                     v-for="(article, index) in articles">
@@ -32,8 +32,10 @@
                       </div>
                     </a>
                   </li>
-                </articletemplate>
-                <articletemplate v-else>
+                </ul>
+              </div>
+              <div v-else>
+                <ul>
                   <li>
                     <div class="card card-cascade narrower" >
                       <div class="card-body card-body-cascade no-results">
@@ -41,8 +43,8 @@
                       </div>
                     </div>
                   </li>
-                </articletemplate>
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -52,6 +54,8 @@
 </template>
 
 <script>
+import sports from './data/sports';
+
 const axios = require('axios');
 const VueScrollTo = require('vue-scrollto');
 
@@ -85,36 +89,28 @@ export default {
       return false;
     },
     updateQuery(query) {
-      const trimmedQuery = query.trim();
+      const sportsToExclude = sports.filter(obj => obj.name !== 'Football');
+      let searchQuery = `("${query}") AND (intitle:football OR intext:football OR inurl:football)`;
+      let sportsToExcludeQuery = '';
 
-      if (trimmedQuery.indexOf(' ') >= 0) {
-        const matches = query.match(/\b(\w)/g);
-        const queryAcrynm = matches.join('');
+      sportsToExclude.forEach((e) => {
+        sportsToExcludeQuery = `${sportsToExcludeQuery}-intitle:${e.name} `;
+      });
 
-        axios
-          .get(`https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.cx}` +
-            `&q=%28intitle%3A"${trimmedQuery}"+OR+intitle%3A"${queryAcrynm}"+OR+intext%3A${trimmedQuery}+OR+intext%3A"${queryAcrynm}"%29+AND+intext%3Afootball` +
+      searchQuery = `${searchQuery} ${sportsToExcludeQuery}`;
+      console.log(searchQuery);
+
+      axios
+        .get(`https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.cx}` +
+            `&q=${searchQuery}` +
             '&sort=date')
-          .then((res) => {
-            this.articles = res.data.items;
+        .then((res) => {
+          this.articles = res.data.items;
 
-            if (res.data.items !== undefined) {
-              VueScrollTo.scrollTo('#news_list', 1200, {});
-            }
-          });
-      } else {
-        axios
-          .get(`https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.cx}` +
-            `&q=%28intitle%3A"${query}"+OR+intext%3A"${query}"%29+AND+intext%3Afootball` +
-            '&sort=date')
-          .then((res) => {
-            this.articles = res.data.items;
-
-            if (res.data.items !== undefined) {
-              VueScrollTo.scrollTo('#news_list', 1200, {});
-            }
-          });
-      }
+          if (res.data.items !== undefined) {
+            VueScrollTo.scrollTo('#news_list', 1200, {});
+          }
+        });
     },
   },
   watch: {

@@ -1,19 +1,29 @@
 <template>
-  <div id="app" @scroll="stickySearch">
-    <TeamSearch :apiKey="apiKey" :cx="cx" v-on:doSearch="doSearch"></TeamSearch>
-    <NewsList :apiKey="apiKey" :cx="cx" v-bind:query="query"></NewsList>
+  <div
+    id="app"
+    @scroll="stickySearch">
+    <TeamSearch
+      :apiKey="apiKey"
+      :cx="cx"
+      v-on:doSearch="doSearch">
+    </TeamSearch>
+    <NewsFeed
+      :apiKey="apiKey"
+      :cx="cx"
+      v-bind:query="query">
+    </NewsFeed>
 
   </div>
 </template>
 
 <script>
-import NewsList from './components/NewsList.vue';
+import NewsFeed from './feed/NewsFeed.vue';
 import TeamSearch from './search/TeamSearch.vue';
 
 export default {
   name: 'app',
   components: {
-    NewsList,
+    NewsFeed,
     TeamSearch,
   },
   data() {
